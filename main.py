@@ -13,6 +13,10 @@ from fastapi import UploadFile, File, Form
 from fastapi import Query
 import shutil
 import os
+import nltk
+
+nltk.download("punkt")
+nltk.download("punkt_tab")
 
 
 SESSION_TIMEOUT = 180
