@@ -27,7 +27,10 @@ app = FastAPI()
 # Allow requests from your React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # or my deployed frontend URL
+    allow_origins=[
+        "http://localhost:3000",
+        "https://quiz-generative-assistant-frontend.vercel.app/"
+    ],  # or my deployed frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
