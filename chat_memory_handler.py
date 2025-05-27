@@ -21,7 +21,7 @@ class ChatMemoryHandler:
     def load_pdf(self, path, delete=True, k=None):
         self.vectorstore = None
         pages = extract_text_from_pdf(path, delete)
-        chunks = split_text(pages)
+        chunks = split_text_semantic(pages)
         self.vectorstore = embed_text(chunks)
 
         retriever = self.vectorstore.as_retriever(search_kwargs={"k": k or len(chunks)})

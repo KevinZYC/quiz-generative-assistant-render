@@ -9,6 +9,7 @@ from langchain.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import Document
 from langchain.text_splitter import NLTKTextSplitter
+from langchain_experimental.text_splitter import SemanticChunker
 import nltk
 nltk.download("punkt")
 
@@ -49,6 +50,19 @@ def split_text(pages, chunk_size=1000, chunk_overlap=200):
         print(doc.page_content)
         print("-" * 30)
     return documents
+
+def split_text_semantic(pages):
+    embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    chunker = SemanticChunker(embeddings=embedding_model)
+
+    documents = [Document(page_content=text, metadata={"page": page}) for page, text in pages]
+    semantic_chunks = chunker.transform_documents(documents)
+
+    for doc in semantic_chunks[:10]:
+        print(f"[Page {doc.metadata['page']}]")
+        print(doc.page_content)
+        print("-" * 30)
+    return semantic_chunks
 
 def embed_text(chunks):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
